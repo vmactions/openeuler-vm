@@ -1,24 +1,24 @@
 {
-  "name": "vmactions-Hurd",
+  "name": "vmactions-openEuler",
   "version": "",
-  "description": "GitHub actions for Hurd",
+  "description": "GitHub actions for openEuler",
   "type": "module",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vmactions/hurd-vm.git"
+    "url": "git+https://github.com/vmactions/openeuler-vm.git"
   },
   "keywords": [
     "GitHub",
     "Actions",
-    "Hurd"
+    "openEuler"
   ],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vmactions/hurd-vm/issues"
+    "url": "https://github.com/vmactions/openeuler-vm/issues"
   },
-  "homepage": "https://github.com/vmactions/hurd-vm",
+  "homepage": "https://github.com/vmactions/openeuler-vm",
   "dependencies": {
     "@actions/core": "^3.0.0",
     "@actions/exec": "^3.0.0",

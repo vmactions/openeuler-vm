@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "2025"
+        release: [ "22.03-LTS-SP4", "25.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386"]
         runs: [ "ubuntu-24.04", "ubuntu-24.04-arm"]
@@ -48,34 +48,44 @@ jobs:
           - runs: "ubuntu-24.04-arm"
             arch: "i386"
           # Manual matrix excludes only; combos with no conf are auto-excluded.
-          - release: "2025"
-            arch: aarch64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: riscv64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: powerpc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: sparc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: ppc64le
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
+            arch: s390x
+          - release: "22.03-LTS-SP4"
+            arch: i386
+          - release: "25.09"
+            arch: powerpc64
+          - release: "25.09"
+            arch: sparc64
+          - release: "25.09"
+            arch: ppc64le
+          - release: "25.09"
+            arch: s390x
+          - release: "25.09"
+            arch: i386
+          - release: ""
+            arch: riscv64
+          - release: ""
+            arch: powerpc64
+          - release: ""
+            arch: sparc64
+          - release: ""
+            arch: ppc64le
+          - release: ""
             arch: s390x
           - release: ""
-            arch: aarch64
-          - release: ""
-            arch: riscv64
-          - release: ""
-            arch: powerpc64
-          - release: ""
-            arch: sparc64
-          - release: ""
-            arch: ppc64le
-          - release: ""
-            arch: s390x
+            arch: i386
 
 
     runs-on: ${{ matrix.runs }}
-    name: sshfs Hurd
+    name: sshfs openEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -84,21 +94,21 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 #    - name: Creating Web console
-#      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
+#      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
 #      uses: vmactions/cf-tunnel@v0
 #      id: tunnel
 #      with:
 #        protocol: http
 #        port: 8000
 
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
         mem: 4096
         release: ${{ matrix.release }}
         arch: ${{ matrix.arch }}
@@ -125,10 +135,13 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
 
+
     - name: Test NAT
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
       env:
         VM_USER: ""
       run: |
@@ -137,8 +150,8 @@ jobs:
         [ "$TEST_ENV" = "abc" ]
         ssh -v -p 20022 ${VM_USER:-root}@localhost  "uname -a;whoami;pwd"
     - name: Test custom shell
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
-      shell: hurd {0}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
+      shell: openeuler {0}
       run: |
         pwd
           pwd
@@ -146,7 +159,10 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Collect VM debug artifacts
       if: failure()
       run: |
@@ -178,7 +194,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "2025"
+        release: [ "22.03-LTS-SP4", "25.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386"]
         runs: [ "ubuntu-24.04", "ubuntu-24.04-arm"]
@@ -198,34 +214,44 @@ jobs:
           - runs: "ubuntu-24.04-arm"
             arch: "i386"
           # Manual matrix excludes only; combos with no conf are auto-excluded.
-          - release: "2025"
-            arch: aarch64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: riscv64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: powerpc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: sparc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: ppc64le
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
+            arch: s390x
+          - release: "22.03-LTS-SP4"
+            arch: i386
+          - release: "25.09"
+            arch: powerpc64
+          - release: "25.09"
+            arch: sparc64
+          - release: "25.09"
+            arch: ppc64le
+          - release: "25.09"
+            arch: s390x
+          - release: "25.09"
+            arch: i386
+          - release: ""
+            arch: riscv64
+          - release: ""
+            arch: powerpc64
+          - release: ""
+            arch: sparc64
+          - release: ""
+            arch: ppc64le
+          - release: ""
             arch: s390x
           - release: ""
-            arch: aarch64
-          - release: ""
-            arch: riscv64
-          - release: ""
-            arch: powerpc64
-          - release: ""
-            arch: sparc64
-          - release: ""
-            arch: ppc64le
-          - release: ""
-            arch: s390x
+            arch: i386
 
 
     runs-on: ${{ matrix.runs }}
-    name: nfs Hurd
+    name: nfs openEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -233,14 +259,14 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
         mem: 4096
         release: ${{ matrix.release }}
         arch: ${{ matrix.arch }}
@@ -267,10 +293,13 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
 
+
     - name: Test NAT
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
       env:
         VM_USER: ""
       run: |
@@ -282,8 +311,8 @@ jobs:
         [ "$TEST_ENV" = "abc" ]
         ssh -v -p 20022 ${VM_USER:-root}@localhost "uname -a;whoami;pwd"
     - name: Test custom shell
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
-      shell: hurd {0}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
+      shell: openeuler {0}
       run: |
         pwd
           pwd
@@ -291,7 +320,10 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Collect VM debug artifacts
       if: failure()
       run: |
@@ -321,7 +353,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "2025"
+        release: [ "22.03-LTS-SP4", "25.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386"]
         runs: [ "ubuntu-24.04", "ubuntu-24.04-arm"]
@@ -341,34 +373,44 @@ jobs:
           - runs: "ubuntu-24.04-arm"
             arch: "i386"
           # Manual matrix excludes only; combos with no conf are auto-excluded.
-          - release: "2025"
-            arch: aarch64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: riscv64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: powerpc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: sparc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: ppc64le
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
+            arch: s390x
+          - release: "22.03-LTS-SP4"
+            arch: i386
+          - release: "25.09"
+            arch: powerpc64
+          - release: "25.09"
+            arch: sparc64
+          - release: "25.09"
+            arch: ppc64le
+          - release: "25.09"
+            arch: s390x
+          - release: "25.09"
+            arch: i386
+          - release: ""
+            arch: riscv64
+          - release: ""
+            arch: powerpc64
+          - release: ""
+            arch: sparc64
+          - release: ""
+            arch: ppc64le
+          - release: ""
             arch: s390x
           - release: ""
-            arch: aarch64
-          - release: ""
-            arch: riscv64
-          - release: ""
-            arch: powerpc64
-          - release: ""
-            arch: sparc64
-          - release: ""
-            arch: ppc64le
-          - release: ""
-            arch: s390x
+            arch: i386
 
 
     runs-on: ${{ matrix.runs }}
-    name: scp Hurd
+    name: scp openEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -377,20 +419,20 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 #    - name: Creating Web console
-#      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
+#      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
 #      uses: vmactions/cf-tunnel@v0
 #      id: tunnel
 #      with:
 #        protocol: http
 #        port: 8000
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
         mem: 4096
         release: ${{ matrix.release }}
         arch: ${{ matrix.arch }}
@@ -419,10 +461,13 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
 
+
     - name: Test files
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
       env:
         VM_USER: ""
       run: |
@@ -438,17 +483,17 @@ jobs:
     # get no GITHUB_WORKSPACE (SendEnv excluded), so the custom shell does not
     # run in the synced work tree.
     - name: Prepare custom shell sync test file on host
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
       run: |
         echo "host-data" > hostfile.txt
     - name: Test custom shell file sync
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
-      shell: hurd {0}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
+      shell: openeuler {0}
       run: |
         [ "$(cat hostfile.txt)" = "host-data" ]
         echo "vm-data" > vmfile.txt
     - name: Verify custom shell copyback on host
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') && !contains(github.repository, 'haiku') && !contains(github.repository, 'blissos') }}
       run: |
         set -e
         [ "$(cat vmfile.txt)" = "vm-data" ]
@@ -482,7 +527,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "2025"
+        release: [ "22.03-LTS-SP4", "25.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386"]
         runs: [ "ubuntu-24.04", "ubuntu-24.04-arm"]
@@ -503,49 +548,59 @@ jobs:
           - runs: "ubuntu-24.04-arm"
             arch: "i386"
           # Manual matrix excludes only; combos with no conf are auto-excluded.
-          - release: "2025"
-            arch: aarch64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: riscv64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: powerpc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: sparc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: ppc64le
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
+            arch: s390x
+          - release: "22.03-LTS-SP4"
+            arch: i386
+          - release: "25.09"
+            arch: powerpc64
+          - release: "25.09"
+            arch: sparc64
+          - release: "25.09"
+            arch: ppc64le
+          - release: "25.09"
+            arch: s390x
+          - release: "25.09"
+            arch: i386
+          - release: ""
+            arch: riscv64
+          - release: ""
+            arch: powerpc64
+          - release: ""
+            arch: sparc64
+          - release: ""
+            arch: ppc64le
+          - release: ""
             arch: s390x
           - release: ""
-            arch: aarch64
-          - release: ""
-            arch: riscv64
-          - release: ""
-            arch: powerpc64
-          - release: ""
-            arch: sparc64
-          - release: ""
-            arch: ppc64le
-          - release: ""
-            arch: s390x
+            arch: i386
 
 
 
     runs-on: ${{ matrix.runs }}
-    name: rsync default Hurd
+    name: rsync default openEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
         mem: 4096
         release: ${{ matrix.release }}
         arch: ${{ matrix.arch }}
@@ -566,9 +621,12 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Test NAT
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       env:
         VM_USER: ""
       run: |
@@ -578,8 +636,8 @@ jobs:
         ssh -v  -p 20022 ${VM_USER:-root}@localhost  "uname -a;whoami;pwd"
 
     - name: Test custom shell
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
-      shell: hurd {0}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+      shell: openeuler {0}
       run: |
         pwd
           pwd
@@ -587,7 +645,10 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Collect VM debug artifacts
       if: failure()
       run: |
@@ -620,7 +681,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "2025"
+        release: [ "22.03-LTS-SP4", "25.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386"]
         runs: [ "ubuntu-24.04", "ubuntu-24.04-arm"]
@@ -640,49 +701,59 @@ jobs:
           - runs: "ubuntu-24.04-arm"
             arch: "i386"
           # Manual matrix excludes only; combos with no conf are auto-excluded.
-          - release: "2025"
-            arch: aarch64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: riscv64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: powerpc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: sparc64
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
             arch: ppc64le
-          - release: "2025"
+          - release: "22.03-LTS-SP4"
+            arch: s390x
+          - release: "22.03-LTS-SP4"
+            arch: i386
+          - release: "25.09"
+            arch: powerpc64
+          - release: "25.09"
+            arch: sparc64
+          - release: "25.09"
+            arch: ppc64le
+          - release: "25.09"
+            arch: s390x
+          - release: "25.09"
+            arch: i386
+          - release: ""
+            arch: riscv64
+          - release: ""
+            arch: powerpc64
+          - release: ""
+            arch: sparc64
+          - release: ""
+            arch: ppc64le
+          - release: ""
             arch: s390x
           - release: ""
-            arch: aarch64
-          - release: ""
-            arch: riscv64
-          - release: ""
-            arch: powerpc64
-          - release: ""
-            arch: sparc64
-          - release: ""
-            arch: ppc64le
-          - release: ""
-            arch: s390x
+            arch: i386
 
 
 
     runs-on: ${{ matrix.runs }}
-    name: customshell Hurd
+    name: customshell openEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
         mem: 4096
         release: ${{ matrix.release }}
         arch: ${{ matrix.arch }}
@@ -703,9 +774,12 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Test NAT
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       env:
         VM_USER: ""
       run: |
@@ -715,7 +789,7 @@ jobs:
         ssh -v  -p 20022 ${VM_USER:-root}@localhost  "uname -a;whoami;pwd"
 
     - name: Test custom shell
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       shell: vmsh {0}
       run: |
         pwd
@@ -724,24 +798,27 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     # File round-trip through the custom shell with sync rsync: a file created
     # on the host must be visible inside the VM, and a file created in the VM
     # must come back to the host (vmactions/freebsd-vm#128). Skipped on Haiku:
     # its guest gets no GITHUB_WORKSPACE (SendEnv excluded), so the custom
     # shell does not run in the synced work tree.
     - name: Prepare custom shell sync test file on host
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
       run: |
         echo "host-data" > hostfile.txt
     - name: Test custom shell file sync
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
       shell: vmsh {0}
       run: |
         [ "$(cat hostfile.txt)" = "host-data" ]
         echo "vm-data" > vmfile.txt
     - name: Verify custom shell copyback on host
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') && !contains(github.repository, 'haiku') }}
       run: |
         set -e
         [ "$(cat vmfile.txt)" = "vm-data" ]
@@ -790,15 +867,15 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: cache-after-prepare seed Hurd
+    name: cache-after-prepare seed openEuler
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')['x86_64'], 'rsync') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         mem: 4096
         usesh: true
@@ -806,7 +883,7 @@ jobs:
         debug-on-error: ${{ vars.DEBUG_ON_ERROR }}
         cache-after-prepare: true
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
           echo prepared >> "$HOME/.cache_after_prepare_count"
         run: |
           set -e
@@ -816,7 +893,10 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     - name: Collect VM debug artifacts
       if: failure()
       run: |
@@ -849,17 +929,17 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: cache-after-prepare hit Hurd
+    name: cache-after-prepare hit openEuler
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
     # The inputs (notably 'prepare' and the sync method) must be byte-identical
     # to the seed job above: the prepared-image cache key hashes them.
-    - name: Test in Hurd
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')['x86_64'], 'rsync') }}
+    - name: Test in openEuler
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         mem: 4096
         usesh: true
@@ -867,7 +947,7 @@ jobs:
         debug-on-error: ${{ vars.DEBUG_ON_ERROR }}
         cache-after-prepare: true
         prepare: |
-          apt-get install -y socat
+          dnf install -y curl
           echo prepared >> "$HOME/.cache_after_prepare_count"
         run: |
           set -e
@@ -877,14 +957,17 @@ jobs:
           whoami
           env
           uname -a
+          cat /etc/os-release
+          nproc
           echo "OK"
+
     # Hard assertion: this job runs right after the seed job with no
     # concurrent cache saves in this run (see the needs chain), so the
     # prepared entry must still be present. A miss here means either a real
     # hit-path regression or cross-run cache churn from another ref -- both
     # worth a red job.
     - name: Verify prepare was skipped
-      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","nfs"],"aarch64":[],"riscv64":[],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":["rsync","scp","nfs"]}')['x86_64'], 'rsync') }}
+      if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[]}')['x86_64'], 'rsync') }}
       run: |
         set -e
         echo "cache-after-prepare-hit=${{ steps.test.outputs.cache-after-prepare-hit }}"
@@ -915,13 +998,13 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: test default error Hurd
+    name: test default error openEuler
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
+    - name: Test in openEuler
       id: testerr
       continue-on-error: true
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         usesh: true
         debug: true
@@ -943,13 +1026,13 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: test default success Hurd
+    name: test default success openEuler
     steps:
     - uses: actions/checkout@v6
-    - name: Test in Hurd
+    - name: Test in openEuler
       id: testpass
       continue-on-error: true
-      uses: vmactions/hurd-vm@933270fabff0e2e7f6e679dad432e4a402f6cb56
+      uses: vmactions/openeuler-vm@c25bc2cd180d2fabcc560725f53e455eef5d2a68
       with:
         usesh: true
         debug: true

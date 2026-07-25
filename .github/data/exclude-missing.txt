@@ -10,8 +10,6 @@
             arch: s390x
           - release: "22.03-LTS-SP4"
             arch: i386
-          - release: "22.03-LTS-SP4"
-            arch: loongarch64
           - release: "25.09"
             arch: powerpc64
           - release: "25.09"
@@ -22,8 +20,6 @@
             arch: s390x
           - release: "25.09"
             arch: i386
-          - release: "25.09"
-            arch: loongarch64
           - release: ""
             arch: riscv64
           - release: ""
