@@ -65,7 +65,7 @@ jobs:
           # used by cache-after-prepare). Copy those values into the local conf
           # so the action and test workflow can read them without a network
           # call at run time.
-          os="hurd"
+          os="openeuler"
           for f in conf/*.conf; do
             base="$(basename "$f" .conf)"
             case "$base" in
