@@ -1,0 +1,5 @@
+
+
+Becareful:
+
+If you use `arch: riscv64`, `sync: sshfs` is not available: the openEuler 25.09 riscv64 port ships no `fuse-sshfs` package at all. Use `rsync` (the default), `nfs` or `scp` instead.

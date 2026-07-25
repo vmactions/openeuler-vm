@@ -1,0 +1,27 @@
+{
+  "name": "vmactions-Hurd",
+  "version": "",
+  "description": "GitHub actions for Hurd",
+  "type": "module",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmactions/hurd-vm.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "Hurd"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vmactions/hurd-vm/issues"
+  },
+  "homepage": "https://github.com/vmactions/hurd-vm",
+  "dependencies": {
+    "@actions/core": "^3.0.0",
+    "@actions/exec": "^3.0.0",
+    "@actions/cache": "^6.0.0"
+  }
+}

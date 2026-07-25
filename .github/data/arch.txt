@@ -1,0 +1,5 @@
+
+
+Not every release ships every architecture (see the release table above): `arch: riscv64` is only available with `release: "25.09"`, and `arch: loongarch64` is only available with `release: "24.03-LTS-SP4"`.
+
+`aarch64`, `riscv64` and `loongarch64` all run under QEMU emulation on the x86_64 runner, so they are much slower than `x86_64`.
