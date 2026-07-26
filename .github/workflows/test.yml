@@ -91,7 +91,7 @@ jobs:
 
 
     runs-on: ${{ matrix.runs }}
-    name: sshfs openEuler
+    name: sshfs OpenEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -107,10 +107,10 @@ jobs:
 #        protocol: http
 #        port: 8000
 
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -263,7 +263,7 @@ jobs:
 
 
     runs-on: ${{ matrix.runs }}
-    name: nfs openEuler
+    name: nfs OpenEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -271,10 +271,10 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -428,7 +428,7 @@ jobs:
 
 
     runs-on: ${{ matrix.runs }}
-    name: scp openEuler
+    name: scp OpenEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
@@ -443,10 +443,10 @@ jobs:
 #      with:
 #        protocol: http
 #        port: 8000
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -610,17 +610,17 @@ jobs:
 
 
     runs-on: ${{ matrix.runs }}
-    name: rsync default openEuler
+    name: rsync default OpenEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -769,17 +769,17 @@ jobs:
 
 
     runs-on: ${{ matrix.runs }}
-    name: customshell openEuler
+    name: customshell OpenEuler
     env:
       MYTOKEN : ${{ secrets.MYTOKEN }}
       MYTOKEN2: "value2"
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -897,15 +897,15 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: cache-after-prepare seed openEuler
+    name: cache-after-prepare seed OpenEuler
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         mem: 4096
         usesh: true
@@ -959,17 +959,17 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: cache-after-prepare hit openEuler
+    name: cache-after-prepare hit OpenEuler
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - uses: actions/checkout@v6
     # The inputs (notably 'prepare' and the sync method) must be byte-identical
     # to the seed job above: the prepared-image cache key hashes them.
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         mem: 4096
         usesh: true
@@ -1028,13 +1028,13 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: test default error openEuler
+    name: test default error OpenEuler
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       id: testerr
       continue-on-error: true
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         usesh: true
         debug: true
@@ -1056,13 +1056,13 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-24.04
-    name: test default success openEuler
+    name: test default success OpenEuler
     steps:
     - uses: actions/checkout@v6
-    - name: Test in openEuler
+    - name: Test in OpenEuler
       id: testpass
       continue-on-error: true
-      uses: vmactions/openeuler-vm@f3dd1eb2f3e2b0ec579dfcf62b12a1a73ecc2a44
+      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
       with:
         usesh: true
         debug: true

@@ -1,10 +1,10 @@
-name: 'openEuler-vm'
-description: 'Run CI in openEuler for GitHub Actions'
+name: 'OpenEuler-vm'
+description: 'Run CI in OpenEuler for GitHub Actions'
 inputs:
   osname:
     description: 'The OS name'
     required: true
-    default: 'openEuler'
+    default: 'OpenEuler'
   prepare:
     description: 'Install some tools before CI runs'
     required: false
@@ -12,13 +12,13 @@ inputs:
     description: 'The CI command to run'
     required: false
   release:
-    description: 'The release version of openEuler vm'
+    description: 'The release version of OpenEuler vm'
     required: false
   arch:
-    description: 'The cpu architecture of openEuler vm'
+    description: 'The cpu architecture of OpenEuler vm'
     required: false
   envs:
-    description: 'The envs to pass into openEuler vm'
+    description: 'The envs to pass into OpenEuler vm'
     required: false
   mem:
     description: 'Set the memory size of the vm'
@@ -28,7 +28,7 @@ inputs:
     description: 'Set the cpu cores of the vm'
     required: false
   nat:
-    description: 'The NAT ports to openEuler vm'
+    description: 'The NAT ports to OpenEuler vm'
     required: false
   usesh:
     description: 'Use sh instead of the default shell. Default is false.'
