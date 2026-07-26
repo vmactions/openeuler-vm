@@ -110,7 +110,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -274,7 +274,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -446,7 +446,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -620,7 +620,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -779,7 +779,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -905,7 +905,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         mem: 4096
         usesh: true
@@ -969,7 +969,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs"],"aarch64":["rsync","scp","sshfs","nfs"],"riscv64":["rsync","scp","nfs"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs"]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         mem: 4096
         usesh: true
@@ -1034,7 +1034,7 @@ jobs:
     - name: Test in OpenEuler
       id: testerr
       continue-on-error: true
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         usesh: true
         debug: true
@@ -1062,7 +1062,7 @@ jobs:
     - name: Test in OpenEuler
       id: testpass
       continue-on-error: true
-      uses: vmactions/openeuler-vm@b5cedf7465595d53816e8db59141133eca3117e8
+      uses: vmactions/openeuler-vm@ef074c01a87d544616a436d8c356bdc886868791
       with:
         usesh: true
         debug: true
