@@ -231,6 +231,19 @@ It uses [the OpenEuler 24.03-LTS-SP4](conf/default.release.conf) by default, you
 ...
 ```
 
+You can also give only the leading, `.` separated part of a release. The newest release that starts with it is used, so the workflow does not have to be edited for every point release:
+
+```yaml
+...
+    - name: Test
+      id: test
+      uses: vmactions/openeuler-vm@v1
+      with:
+        release: "24"
+...
+```
+
+Here `release: "24"` runs the newest `24.x` release of OpenEuler. Every leading part works the same way, this action ships 22, 24, 25. Each part you give has to match in full, so a release that does not exist fails the job instead of quietly falling back to another one.
 
 ## 6. Select architecture
 
