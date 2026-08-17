@@ -108,6 +108,8 @@ jobs:
             arch: i386
           - release: ""
             arch: armv7
+          - release: "25.09"
+            arch: "riscv64"
 
 
     runs-on: ${{ matrix.runs }}
