@@ -1,6 +1,6 @@
 {
   "name": "vmactions-OpenEuler",
-  "version": "",
+  "version": "1.0.0",
   "description": "GitHub actions for OpenEuler",
   "type": "module",
   "main": "index.js",
