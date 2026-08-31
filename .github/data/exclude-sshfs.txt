@@ -1,2 +1,0 @@
-          - release: "25.09"
-            arch: "riscv64"
