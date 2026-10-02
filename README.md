@@ -38,6 +38,7 @@ All the supported releases are here:
 
 | Release | x86_64 (amd64) | aarch64 (arm64) | riscv64 | loongarch64 |
 |---------|---------|---------|---------|---------|
+| 26.09 | ✅ (rsync,scp,sshfs,nfs,tar) | ✅ (rsync,scp,sshfs,nfs,tar) | — | — |
 | 25.09 | ✅ (rsync,scp,sshfs,nfs,tar) | ✅ (rsync,scp,sshfs,nfs,tar) | ✅ (rsync,scp,sshfs,nfs,tar) | — |
 | 24.03-LTS-SP4 | ✅ (rsync,scp,sshfs,nfs,tar) | ✅ (rsync,scp,sshfs,nfs,tar) | — | ✅ (rsync,scp,sshfs,nfs,tar) |
 | 22.03-LTS-SP4 | ✅ (rsync,scp,sshfs,nfs,tar) | ✅ (rsync,scp,sshfs,nfs,tar) | — | — |
@@ -259,7 +260,7 @@ You can also give only the leading, `.` separated part of a release. The newest 
 ...
 ```
 
-Here `release: "24"` runs the newest `24.x` release of OpenEuler. Every leading part works the same way, this action ships 22, 24, 25. Each part you give has to match in full, so a release that does not exist fails the job instead of quietly falling back to another one.
+Here `release: "24"` runs the newest `24.x` release of OpenEuler. Every leading part works the same way, this action ships 22, 24, 25, 26. Each part you give has to match in full, so a release that does not exist fails the job instead of quietly falling back to another one.
 
 ## 6. Select architecture
 
