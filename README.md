@@ -236,7 +236,7 @@ The VM is using all the cpu cores of the host by default, you can use `cpu` opti
 
 ## 5. Select release
 
-It uses [the OpenEuler 24.03-LTS-SP4](conf/default.release.conf) by default, you can use `release` option to use another version of OpenEuler:
+It uses [the OpenEuler 26.09](conf/default.release.conf) by default, you can use `release` option to use another version of OpenEuler:
 
 ```yaml
 ...
@@ -256,11 +256,11 @@ You can also give only the leading, `.` separated part of a release. The newest 
       id: test
       uses: vmactions/openeuler-vm@v1
       with:
-        release: "24"
+        release: "26"
 ...
 ```
 
-Here `release: "24"` runs the newest `24.x` release of OpenEuler. Every leading part works the same way, this action ships 22, 24, 25, 26. Each part you give has to match in full, so a release that does not exist fails the job instead of quietly falling back to another one.
+Here `release: "26"` runs the newest `26.x` release of OpenEuler. Every leading part works the same way, this action ships 22, 24, 25, 26. Each part you give has to match in full, so a release that does not exist fails the job instead of quietly falling back to another one.
 
 ## 6. Select architecture
 
