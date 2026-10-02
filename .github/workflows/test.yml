@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "22.03-LTS-SP4", "25.09", "26.09"
+        release: [ "22.03-LTS-SP4", "24.03-LTS-SP4", "25.09", "26.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386", "loongarch64", "armv7"]
         runs: [ "ubuntu-26.04", "ubuntu-26.04-arm"]
@@ -79,6 +79,20 @@ jobs:
           - release: "22.03-LTS-SP4"
             arch: loongarch64
           - release: "22.03-LTS-SP4"
+            arch: armv7
+          - release: "24.03-LTS-SP4"
+            arch: riscv64
+          - release: "24.03-LTS-SP4"
+            arch: powerpc64
+          - release: "24.03-LTS-SP4"
+            arch: sparc64
+          - release: "24.03-LTS-SP4"
+            arch: ppc64le
+          - release: "24.03-LTS-SP4"
+            arch: s390x
+          - release: "24.03-LTS-SP4"
+            arch: i386
+          - release: "24.03-LTS-SP4"
             arch: armv7
           - release: "25.09"
             arch: powerpc64
@@ -148,7 +162,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'sshfs') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -239,7 +253,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "22.03-LTS-SP4", "25.09", "26.09"
+        release: [ "22.03-LTS-SP4", "24.03-LTS-SP4", "25.09", "26.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386", "loongarch64", "armv7"]
         runs: [ "ubuntu-26.04", "ubuntu-26.04-arm"]
@@ -278,6 +292,20 @@ jobs:
           - release: "22.03-LTS-SP4"
             arch: loongarch64
           - release: "22.03-LTS-SP4"
+            arch: armv7
+          - release: "24.03-LTS-SP4"
+            arch: riscv64
+          - release: "24.03-LTS-SP4"
+            arch: powerpc64
+          - release: "24.03-LTS-SP4"
+            arch: sparc64
+          - release: "24.03-LTS-SP4"
+            arch: ppc64le
+          - release: "24.03-LTS-SP4"
+            arch: s390x
+          - release: "24.03-LTS-SP4"
+            arch: i386
+          - release: "24.03-LTS-SP4"
             arch: armv7
           - release: "25.09"
             arch: powerpc64
@@ -339,7 +367,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'nfs') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -431,7 +459,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "22.03-LTS-SP4", "25.09", "26.09"
+        release: [ "22.03-LTS-SP4", "24.03-LTS-SP4", "25.09", "26.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386", "loongarch64", "armv7"]
         runs: [ "ubuntu-26.04", "ubuntu-26.04-arm"]
@@ -470,6 +498,20 @@ jobs:
           - release: "22.03-LTS-SP4"
             arch: loongarch64
           - release: "22.03-LTS-SP4"
+            arch: armv7
+          - release: "24.03-LTS-SP4"
+            arch: riscv64
+          - release: "24.03-LTS-SP4"
+            arch: powerpc64
+          - release: "24.03-LTS-SP4"
+            arch: sparc64
+          - release: "24.03-LTS-SP4"
+            arch: ppc64le
+          - release: "24.03-LTS-SP4"
+            arch: s390x
+          - release: "24.03-LTS-SP4"
+            arch: i386
+          - release: "24.03-LTS-SP4"
             arch: armv7
           - release: "25.09"
             arch: powerpc64
@@ -538,7 +580,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'scp') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         envs: 'DEBUG MYTOKEN MYTOKEN2'
         prepare: |
@@ -671,7 +713,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}', 'tar') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         mem: 4096
         debug: true
@@ -738,7 +780,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}', '9p') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         mem: 4096
         debug: true
@@ -784,7 +826,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "22.03-LTS-SP4", "25.09", "26.09"
+        release: [ "22.03-LTS-SP4", "24.03-LTS-SP4", "25.09", "26.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386", "loongarch64", "armv7"]
         runs: [ "ubuntu-26.04", "ubuntu-26.04-arm"]
@@ -824,6 +866,20 @@ jobs:
           - release: "22.03-LTS-SP4"
             arch: loongarch64
           - release: "22.03-LTS-SP4"
+            arch: armv7
+          - release: "24.03-LTS-SP4"
+            arch: riscv64
+          - release: "24.03-LTS-SP4"
+            arch: powerpc64
+          - release: "24.03-LTS-SP4"
+            arch: sparc64
+          - release: "24.03-LTS-SP4"
+            arch: ppc64le
+          - release: "24.03-LTS-SP4"
+            arch: s390x
+          - release: "24.03-LTS-SP4"
+            arch: i386
+          - release: "24.03-LTS-SP4"
             arch: armv7
           - release: "25.09"
             arch: powerpc64
@@ -885,7 +941,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -971,7 +1027,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [ "22.03-LTS-SP4", "25.09", "26.09"
+        release: [ "22.03-LTS-SP4", "24.03-LTS-SP4", "25.09", "26.09"
 , ""]
         arch: [ "aarch64", "", "riscv64", "powerpc64", "sparc64", "ppc64le", "s390x", "i386", "loongarch64", "armv7"]
         runs: [ "ubuntu-26.04", "ubuntu-26.04-arm"]
@@ -1010,6 +1066,20 @@ jobs:
           - release: "22.03-LTS-SP4"
             arch: loongarch64
           - release: "22.03-LTS-SP4"
+            arch: armv7
+          - release: "24.03-LTS-SP4"
+            arch: riscv64
+          - release: "24.03-LTS-SP4"
+            arch: powerpc64
+          - release: "24.03-LTS-SP4"
+            arch: sparc64
+          - release: "24.03-LTS-SP4"
+            arch: ppc64le
+          - release: "24.03-LTS-SP4"
+            arch: s390x
+          - release: "24.03-LTS-SP4"
+            arch: i386
+          - release: "24.03-LTS-SP4"
             arch: armv7
           - release: "25.09"
             arch: powerpc64
@@ -1071,7 +1141,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')[matrix.arch == '' && 'x86_64' || matrix.arch], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         envs: 'MYTOKEN MYTOKEN2'
         prepare: |
@@ -1196,7 +1266,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         mem: 4096
         debug: true
@@ -1259,7 +1329,7 @@ jobs:
     - name: Test in OpenEuler
       if: ${{ contains(fromJSON('{"x86_64":["rsync","scp","sshfs","nfs","tar"],"aarch64":["rsync","scp","sshfs","nfs","tar"],"riscv64":["rsync","scp","sshfs","nfs","tar"],"powerpc64":[],"sparc64":[],"ppc64le":[],"s390x":[],"i386":[],"loongarch64":["rsync","scp","sshfs","nfs","tar"],"armv7":[]}')['x86_64'], 'rsync') }}
       id: test
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         mem: 4096
         debug: true
@@ -1338,7 +1408,7 @@ jobs:
     - name: Test in OpenEuler
       id: testerr
       continue-on-error: true
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         debug: true
         # A command that EXISTS and fails, rather than `false` or a made-up
@@ -1384,7 +1454,7 @@ jobs:
     - name: Test in OpenEuler
       id: testpass
       continue-on-error: true
-      uses: vmactions/openeuler-vm@211b5fedb68987b8e8bbd575c0bf171f532e684c
+      uses: vmactions/openeuler-vm@59dc6291b8ec797a47df62d10bf713e8eca6f9fd
       with:
         debug: true
         # No `true` and no double quotes: this body runs on every guest, and
